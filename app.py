@@ -16,6 +16,7 @@ to do:
 - monetization? maybe??? (buy more storage. start w shitty little 2tb ssd)
 - custom embed coloring
 """
+
 # something you guys SHOULD HOPEFULLY NEVER SEE. if you do i failed. i'm dumb.
 from sensitivedetails import EMAIL_ADDRESS, EMAIL_PASSWORD
 
@@ -63,8 +64,6 @@ limiter = Limiter(
     app=app,
     default_limits=["1000 per day", "100 per hour"]
 )
-
-
 
 def send_2sv_email(email, code):
     msg = EmailMessage()
