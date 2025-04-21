@@ -40,7 +40,7 @@ A simple, self‑hosted ShareX‑compatible image (and video) hosting service wi
 
 1. **Clone the repo**
    ```bash
-   git clone https://github.com/gamerjamer43/shareximagehost.git
+   git clone https://github.com/gamerjamer43/shareximagehost
    cd shareximagehost
    ```
 2. **Install dependencies**
@@ -121,11 +121,11 @@ A simple, self‑hosted ShareX‑compatible image (and video) hosting service wi
 ## Project Structure
 
 ```
-├── app.py             # Main Flask application
-├── approve.py         # Admin user‑approval CLI
-├── sensitivedetails.py# (gitignored) email creds
-├── requirements.txt   # Python dependencies
-├── templates/         # HTML templates (UI)
+├── app.py              # Main Flask application
+├── approve.py          # Admin user‑approval CLI
+├── sensitivedetails.py # (gitignored) email creds
+├── requirements.txt    # Python dependencies
+├── templates/          # HTML templates (UI)
 │   ├── index.html
 │   ├── signup.html
 │   ├── login.html
@@ -133,9 +133,9 @@ A simple, self‑hosted ShareX‑compatible image (and video) hosting service wi
 │   ├── file.html
 │   └── test.html
 ├── static/
-│   └── images/        # icons, logo, favicon
-├── uploads/           # User file storage (created at runtime)
-└── users.db           # SQLite database (created on first run)
+│   └── images/         # icons, logo, favicon
+├── uploads/            # User file storage (created at runtime)
+└── users.db            # SQLite database (created on first run)
 ```
 
 ## Contributing
