@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="https://yfmnkuc1gyt5.share.zrok.io/static/images/logo.ico">
+    <meta property="og:site_name" content="Noah's Image Uploader">
+    <meta property="og:url" content="{{ url_for('uploaded_file', user_id=user_id, filename=filename, _external=True) }}">
+    <meta property="og:type" content="{% if filename.endswith(('.jpg', '.jpeg', '.png', '.gif')) %}image{% elif filename.endswith(('.mp4', '.webm', '.ogg', '.mp3', '.m4a')) %}video{% else %}website{% endif %}">
+    <meta property="og:title" content="{{ filename }}">
+    <meta name="theme-color" content="#351441">
+    {% if filename.endswith(('.jpg', '.jpeg', '.png', '.gif')) %}
+        <meta name="twitter:card" content="summary_large_image">
+        <meta content="{{ url_for('uploaded_file', user_id=user_id, filename=filename, _external=True) }}" property="og:image">
+    {% elif filename.endswith(('.mp4', '.webm', '.ogg', '.mp3', '.m4a')) %}
+        <meta property="og:video" content="{{ url_for('uploaded_file', user_id=user_id, filename=filename, _external=True) }}">
+        <meta property="og:video:type" content="video/{{ filename.split('.')[-1] }}">
+        <meta property="og:video:secure_url" content="{{ url_for('uploaded_file', user_id=user_id, filename=filename, _external=True) }}">
+        <meta property="og:video:height" content="{{ width }}">
+        <meta property="og:video:width" content="{{ height }}">
+    {% else %}
+        <meta property="og:image" content="default-image-url.jpg">
+    {% endif %}
+    <title>Noah's Image Uploader | {{ filename }}</title>
+    <style>
+        body {
+            font-family: 'Impact', sans-serif;
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+        .top-bar {
+            background-color: #111;
+            width: 100%;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 24px;
+        }
+        .top-bar a {
+            color: #fff;
+            text-decoration: none;
+        }
+        .top-bar a:visited {
+            color: #fff;
+            text-decoration: none;
+        }
+        .container {
+            background-color: #222;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+            width: 80%;
+            max-width: 800px;
+        }
+        .content {
+            padding: 20px;
+            margin: 20px 0;
+            font-size: 24px;
+            width: 100%;
+            text-align: center;
+        }
+        .filename {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 25px;
+        }
+        .button {
+            background-color: #0000ff;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .button.share {
+            background-color: #8000ff;
+        }
+        video {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                alert('Link copied to clipboard!');
+            }, function(err) {
+                console.error('Failed to copy text: ', err);
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="top-bar">
+        <a href='/'>Noah's Image Uploader</a>
+    </div>
+    <div class="container">
+        <div class="content">
+            {% if filename.endswith(('.jpg', '.jpeg', '.png', '.gif')) %}
+                <img src="{{ url_for('uploaded_file', user_id=user_id, filename=filename, _external=True) }}" alt="{{ filename }}" style="max-width: 100%; height: auto;">
+            {% elif filename.endswith(('.mp4', '.webm', '.ogg', '.mp3', '.m4a')) %}
+                <video controls>
+                    <source src="{{ url_for('uploaded_file', user_id=user_id, filename=filename, _external=True) }}" type="video/{{ filename.split('.')[-1] }}">
+                    Your browser does not support the video tag.
+                </video>
+            {% else %}
+                <p>Unsupported file type</p>
+            {% endif %}
+        </div>
+        <div class="filename">{{ filename }}</div>
+        <div class="filename">Author: {{ username }}</div>
+        <div class="buttons">
+            <a href="{{ url_for('uploaded_file', user_id=user_id, filename=filename, _external=True) }}" class="button download" download>Download</a>
+            <a href="#" class="button share" data-url="{{ url_for('file_page', user_id=user_id, filename=filename, _external=True) }}" onclick="copyToClipboard(this.getAttribute('data-url'))">Share</a>
+        </div>
+    </div>
+</body>
+</html>

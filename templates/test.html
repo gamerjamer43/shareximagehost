@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="https://yfmnkuc1gyt5.share.zrok.io/static/images/logo.ico">
+    <title>Noah's Image Uploader | Settings</title>
+    <style>
+        body {
+            font-family: 'Impact', sans-serif;
+            background-color: #000;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+        .top-bar {
+            background-color: #111;
+            width: 100%;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 24px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+        .container {
+            background-color: #1e1e1e;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 600px;
+            margin-top: 80px;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 16px;
+            color: #e0e0e0;
+        }
+        .toggler {
+            width: 72px;
+            margin: 20px auto;
+        }
+        .toggler input {
+            display: none;
+        }
+        .toggler label {
+            display: block;
+            position: relative;
+            width: 72px;
+            height: 36px;
+            border: 1px solid #d6d6d6;
+            border-radius: 36px;
+            background: #e4e8e8;
+            cursor: pointer;
+        }
+        .toggler label::after {
+            display: block;
+            border-radius: 100%;
+            background-color: #d7062a;
+            content: '';
+            animation-name: toggler-size;
+            animation-duration: 0.15s;
+            animation-timing-function: ease-out;
+            animation-direction: forwards;
+            animation-iteration-count: 1;
+            animation-play-state: running;
+        }
+        .toggler label::after, .toggler label .toggler-on, .toggler label .toggler-off {
+            position: absolute;
+            top: 50%;
+            left: 25%;
+            width: 26px;
+            height: 26px;
+            transform: translateY(-50%) translateX(-50%);
+            transition: left 0.15s ease-in-out, background-color 0.2s ease-out, width 0.15s ease-in-out, height 0.15s ease-in-out, opacity 0.15s ease-in-out;
+        }
+        .toggler input:checked + label::after, .toggler input:checked + label .toggler-on, .toggler input:checked + label .toggler-off {
+            left: 75%;
+        }
+        .toggler input:checked + label::after {
+            background-color: #50ac5d;
+            animation-name: toggler-size2;
+        }
+        .toggler .toggler-on, .toggler .toggler-off {
+            opacity: 1;
+            z-index: 2;
+        }
+        .toggler input:checked + label .toggler-off, .toggler input:not(:checked) + label .toggler-on {
+            width: 0;
+            height: 0;
+            opacity: 0;
+        }
+        .toggler .path {
+            fill: none;
+            stroke: #fefefe;
+            stroke-width: 7px;
+            stroke-linecap: round;
+            stroke-miterlimit: 10;
+        }
+        @keyframes toggler-size {
+            0%, 100% {
+                width: 26px;
+                height: 26px;
+            }
+            50% {
+                width: 20px;
+                height: 20px;
+            }
+        }
+        @keyframes toggler-size2 {
+            0%, 100% {
+                width: 26px;
+                height: 26px;
+            }
+            50% {
+                width: 20px;
+                height: 20px;
+            }
+        }
+        .settings-group {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        Noah's Image Uploader
+    </div>
+    <div class="container">
+        <h1>Settings</h1>
+        <form method="POST" action="{{ url_for('update_settings') }}">
+            <div class="settings-group">
+                <h2>Enable Feature 1:</h2>
+                <div class="toggler">
+                    <input id="feature-1" name="feature-1" type="checkbox">
+                    <label for="feature-1">
+                        <svg class="toggler-on" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+                            <polyline class="path check" points="100.2,40.2 51.5,88.8 29.8,67.5"></polyline>
+                        </svg>
+                        <svg class="toggler-off" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+                            <line class="path line" x1="34.4" y1="34.4" x2="95.8" y2="95.8"></line>
+                            <line class="path line" x1="95.8" y1="34.4" x2="34.4" y2="95.8"></line>
+                        </svg>
+                    </label>
+                </div>
+            </div>
+            <div class="settings-group">
+                <h2>Enable Feature 2:</h2>
+                <div class="toggler">
+                    <input id="feature-2" name="feature-2" type="checkbox">
+                    <label for="feature-2">
+                        <svg class="toggler-on" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+                            <polyline class="path check" points="100.2,40.2 51.5,88.8 29.8,67.5"></polyline>
+                        </svg>
+                        <svg class="toggler-off" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+                            <line class="path line" x1="34.4" y1="34.4" x2="95.8" y2="95.8"></line>
+                            <line class="path line" x1="95.8" y1="34.4" x2="34.4" y2="95.8"></line>
+                        </svg>
+                    </label>
+                </div>
+            </div>
+            <div class="settings-group">
+                <h2>Enable Feature 3:</h2>
+                <div class="toggler">
+                    <input id="feature-3" name="feature-3" type="checkbox">
+                    <label for="feature-3">
+                        <svg class="toggler-on" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+                            <polyline class="path check" points="100.2,40.2 51.5,88.8 29.8,67.5"></polyline>
+                        </svg>
+                        <svg class="toggler-off" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+                            <line class="path line" x1="34.4" y1="34.4" x2="95.8" y2="95.8"></line>
+                            <line class="path line" x1="95.8" y1="34.4" x2="34.4" y2="95.8"></line>
+                        </svg>
+                    </label>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
