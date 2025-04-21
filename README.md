@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # shareximagehost
 
 A simple, self‑hosted ShareX‑compatible image (and video) hosting service with user accounts, 2‑step email verification, per‑user storage quotas, and a web UI.
@@ -148,3 +149,6 @@ A simple, self‑hosted ShareX‑compatible image (and video) hosting service wi
 ## License
 
 This project is licensed under the GNU General Public License v3.0. See the [LICENSE](LICENSE) file for details.
+=======
+adding this later. i'm fat and lazy
+>>>>>>> cab723b9202f46d8250e6b56afd2d82ef23d2e02
