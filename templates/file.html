@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="https://yfmnkuc1gyt5.share.zrok.io/static/images/logo.ico">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/logo.ico', _external=True) }}">
     <meta property="og:site_name" content="Noah's Image Uploader">
     <meta property="og:url" content="{{ url_for('uploaded_file', user_id=user_id, filename=filename, _external=True) }}">
     <meta property="og:type" content="{% if filename.endswith(('.jpg', '.jpeg', '.png', '.gif')) %}image{% elif filename.endswith(('.mp4', '.webm', '.ogg', '.mp3', '.m4a')) %}video{% else %}website{% endif %}">
@@ -112,11 +112,19 @@
         <div class="content">
             {% if filename.endswith(('.jpg', '.jpeg', '.png', '.gif')) %}
                 <img src="{{ url_for('uploaded_file', user_id=user_id, filename=filename, _external=True) }}" alt="{{ filename }}" style="max-width: 100%; height: auto;">
-            {% elif filename.endswith(('.mp4', '.webm', '.ogg', '.mp3', '.m4a')) %}
+            {% elif filename.endswith(('.mp4', '.webm')) %}
                 <video controls>
                     <source src="{{ url_for('uploaded_file', user_id=user_id, filename=filename, _external=True) }}" type="video/{{ filename.split('.')[-1] }}">
                     Your browser does not support the video tag.
                 </video>
+                {% elif filename.endswith(('.mp3', '.m4a', '.ogg', '.wav')) %}
+                <audio controls style="width: 50%;">
+                    <source
+                    src="{{ url_for('uploaded_file', user_id=user_id, filename=filename, _external=True) }}"
+                    type="{% if ext == 'mp3' %}audio/mpeg{% elif ext == 'm4a' %}audio/mp4{% elif ext == 'wav' %}audio/wav{% else %}audio/ogg{% endif %}"
+                    >
+                    Your browser does not support the audio element.
+                </audio>
             {% else %}
                 <p>Unsupported file type</p>
             {% endif %}

@@ -128,7 +128,7 @@ def index():
     elif current_user.id != 1:
         max_size = 2 * 1024 * 1024 * 1024
     used_size = current_user.total_file_size
-    used_percentage = (used_size / max_size) * 100
+    used_percentage = round((used_size / max_size) * 100, 2)
 
     return render_template('index.html', api_key=current_user.api_key, files=files, used_size=used_size, max_size=max_size, used_percentage=used_percentage, user_id=current_user.id, username=current_user.username)
 
@@ -262,18 +262,40 @@ def file_page(user_id, filename):
 
     file_url = url_for('uploaded_file', user_id=user_id, filename=filename, _external=True)
 
-    try:
-        video = VideoFileClip(file_path)
-        width, height = video.size
-    except Exception as e:
-        print(f"Error getting video dimensions: {e}, trying image.")
-        try: 
+     # 1. Extract and normalize extension
+    _, ext = os.path.splitext(filename)
+    ext = ext.lower().lstrip('.')  # e.g. ".MP4" → "mp4"
+
+    width = height = None
+
+    # 2. Only process dimensions for video or image
+    if ext in ['mp4', 'webm', 'ogg']:
+        # Video: get dimensions via MoviePy
+        try:
+            clip = VideoFileClip(file_path)
+            width, height = clip.size
+        except Exception as e:
+            app.logger.error(f"Video dimension error: {e}")
+    elif ext in ['jpg', 'jpeg', 'png', 'gif']:
+        # Image: get dimensions via Pillow
+        try:
             im = Image.open(file_path)
             width, height = im.size
         except Exception as e:
-            print(f"Error getting both image and video dimensions: {e}")
+            app.logger.error(f"Image dimension error: {e}")
+    elif ext in ['mp3', 'm4a', 'wav', 'ogg']:
+        pass
 
-    return render_template('file.html', filename=filename, user_id=user_id, username=user.username, file_url=file_url, width=width, height=height)
+    file_url = url_for('uploaded_file', user_id=user_id, filename=filename, _external=True)
+    return render_template(
+        'file.html',
+        filename=filename,
+        user_id=user_id,
+        username=user.username,
+        file_url=file_url,
+        width=width,
+        height=height
+)
 
 @app.route('/uploads/<int:user_id>/<filename>')
 def uploaded_file(user_id, filename):

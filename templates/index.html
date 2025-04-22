@@ -11,6 +11,7 @@
     <meta property="og:image" href="{{ url_for('static', filename='images/logo.png', _external=True) }}">
     <meta property="og:url" content="{{ url_for('index', _external=True) }}">
     <meta property="og:type" content="website">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css', _external=True) }}">
     <title>Noah's Image Uploader</title>
     <style>
         body {
@@ -237,11 +238,19 @@
                 <div class="grid-item">
                     {% if file.endswith(('.jpg', '.jpeg', '.png', '.gif')) %}
                         <img src="{{ url_for('uploaded_file', filename=file, user_id=current_user.id) }}" alt="{{ file }}">
-                    {% elif file.endswith(('.mp4', '.webm', '.ogg')) %}
+                    {% elif file.endswith(('.mp4', '.webm')) %}
                         <video controls>
                             <source src="{{ url_for('uploaded_file', filename=file, user_id=current_user.id) }}" type="video/{{ file.split('.')[-1] }}">
                             Your browser does not support the video tag.
                         </video>
+                    {% elif file.endswith(('.mp3', '.m4a', '.ogg', '.wav')) %}
+                        <audio controls style="width: 100%;">
+                            <source
+                            src="{{ url_for('uploaded_file', user_id=user_id, filename=file, _external=True) }}"
+                            type="{% if ext == 'mp3' %}audio/mpeg{% elif ext == 'm4a' %}audio/mp4{% elif ext == 'wav' %}audio/wav{% else %}audio/ogg{% endif %}"
+                            >
+                            Your browser does not support the audio element.
+                        </audio>
                     {% else %}
                         <p>Unsupported file type</p>
                     {% endif %}
