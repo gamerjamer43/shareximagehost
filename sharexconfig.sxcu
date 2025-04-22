@@ -1,0 +1,13 @@
+{
+  "Version": "16.1.0",
+  "Name": "Noah's Image Hosting",
+  "DestinationType": "FileUploader",
+  "RequestMethod": "POST",
+  "RequestURL": "http(s)://{your url}/upload",
+  "Headers": {
+    "key": "{your key here}"
+  },
+  "Body": "MultipartFormData",
+  "FileFormName": "file",
+  "URL": "{json:file_url}"
+}
